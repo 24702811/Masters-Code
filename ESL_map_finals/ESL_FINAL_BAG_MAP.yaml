@@ -1,0 +1,7 @@
+image: ESL_FINAL_BAG_MAP.pgm
+resolution: 0.025
+origin: [-23.4171, -24.6271, 0.0]
+negate: 0
+occupied_thresh: 0.5
+free_thresh: 0.196
+

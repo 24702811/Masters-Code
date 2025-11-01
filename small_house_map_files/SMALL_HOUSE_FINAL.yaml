@@ -1,0 +1,7 @@
+image: SMALL_HOUSE_FINAL.pgm
+resolution: 0.025
+origin: [-9.79817, -6.00915, 0.0]
+negate: 0
+occupied_thresh: 0.5
+free_thresh: 0.196
+

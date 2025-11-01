@@ -1,0 +1,31 @@
+ekf_filter_node:
+  ros__parameters:
+    use_sim_time: true
+    frequency: 50.0
+    sensor_timeout: 0.1
+    two_d_mode: true
+    transform_time_offset: 0.0
+    transform_timeout: 0.0
+    map_frame: map
+    odom_frame: icp_odom
+    base_link_frame: base_link
+    world_frame: map  # Use 'map' if localization correction is included
+    publish_tf: false
+    publish_acceleration: false
+
+    odom0: /icp_odom
+    odom0_config: [true, true, false,  # x, y, z
+                       false, false, false, # roll, pitch, yaw
+                       true, true, false,   # vx, vy, vz
+                       false, false, false, # vroll, vpitch, vyaw
+                       false, false, false] # ax, ay, az
+
+    # imu0: /imu/data
+    # imu0_config: [false, false, false,
+    #               true, true, true,    # orientation
+    #               false, false, false,
+    #               true, true, true,    # angular velocity
+    #               false, false, false]
+    # imu0_differential: false
+    # imu0_remove_gravitational_acceleration: true
+    permit_corrected_publication: true

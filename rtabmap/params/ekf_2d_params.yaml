@@ -1,0 +1,93 @@
+# ekf_filter_node:
+#   ros__parameters:
+#     use_sim_time: true
+#     frequency: 50.0
+#     sensor_timeout: 0.1
+#     two_d_mode: true
+#     transform_time_offset: 0.0
+#     transform_timeout: 0.0
+#     map_frame: map
+#     odom_frame: odom
+#     base_link_frame: base_link
+#     world_frame: map  # Use 'map' if localization correction is included
+#     publish_tf: false
+#     publish_acceleration: false
+
+#     odom0: /odom
+#     odom0_config: [true, true, false,  # x, y, z
+#                        false, false, false, # roll, pitch, yaw
+#                        true, true, false,   # vx, vy, vz
+#                        false, false, false, # vroll, vpitch, vyaw
+#                        false, false, false] # ax, ay, az
+
+#     # imu0: /imu/data
+#     # imu0_config: [false, false, false,
+#     #               true, true, true,    # orientation
+#     #               false, false, false,
+#     #               true, true, true,    # angular velocity
+#     #               false, false, false]
+#     # imu0_differential: false
+#     # imu0_remove_gravitational_acceleration: true
+#     permit_corrected_publication: true
+
+
+
+
+
+
+
+
+ekf_filter_node:
+  ros__parameters:
+    use_sim_time: true
+
+    # Filter timing
+    frequency: 50.0               # high-rate output
+    sensor_timeout: 0.5           # allow slow absolute updates without dropping them
+
+    # Frames
+    two_d_mode: true
+    map_frame: map
+    odom_frame: odom
+    base_link_frame: base_link
+    world_frame: map              # because we fuse absolute pose -> map-referenced output
+
+    # TF / extras
+    publish_tf: false             # keep false if another node publishes TF; set true if you need it
+    publish_acceleration: false
+    transform_time_offset: 0.0
+    transform_timeout: 0.0
+    permit_corrected_publication: true
+
+    # ----------------------------
+    # High-rate odometry input
+    # ----------------------------
+    # Use your odometry source here (RTAB-Map odom or wheel/VO):
+    odom0: /odom                    # change to /rtabmap/odom if that's your source
+    # x y z | roll pitch yaw |  vx  vy  vz | vroll vpitch vyaw |  ax  ay  az
+    odom0_config: [ true, true, false,
+                    false,false, true,
+                    true, true, false,
+                    false,false, true,
+                    false,false, false ]
+    odom0_differential: false
+    odom0_relative:     false
+
+    # ----------------------------
+    # Low-rate absolute pose (RTAB-Map)
+    # ----------------------------
+    pose0: /localization_pose        # geometry_msgs/PoseWithCovarianceStamped
+    # Use absolute position + yaw only in 2D
+    # x y z | roll pitch yaw | (vels) | (ang vels) | (accels)
+    pose0_config: [ true, true, false,
+                    false,false, true,
+                    false,false,false,
+                    false,false,false,
+                    false,false,false ]
+    pose0_differential: false
+    pose0_relative:     false
+    pose0_queue_size:   10
+
+    # Optional outlier rejection (tune if needed)
+    # pose0_rejection_threshold: 2.5        # meters
+    # pose0_nodelay: true
